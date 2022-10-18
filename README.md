@@ -1,1 +1,1 @@
-# PreparationForWS
+Подготовка к WorldSkills 
