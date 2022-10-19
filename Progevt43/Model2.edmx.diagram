@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="885065e1703f490cac46f160c158491a" Name="Diagram1">
+        <EntityTypeShape EntityType="ExportOfRawMaterials2Model.Contract" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExportOfRawMaterials2Model.ContractOfRawMaterialsPrescribedInTheContract" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExportOfRawMaterials2Model.RawMaterialsPrescribedInTheContract" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExportOfRawMaterials2Model.RecipientCompany" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExportOfRawMaterials2Model.SupplierCompany" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExportOfRawMaterials2Model.sysdiagrams" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExportOfRawMaterials2Model.Сountries" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <AssociationConnector Association="ExportOfRawMaterials2Model.FK_Contract_RecipientCompany1" ManuallyRouted="false" />
+        <AssociationConnector Association="ExportOfRawMaterials2Model.FK_Contract_SupplierCompany1" ManuallyRouted="false" />
+        <AssociationConnector Association="ExportOfRawMaterials2Model.FK_Contract_Сountries" ManuallyRouted="false" />
+        <AssociationConnector Association="ExportOfRawMaterials2Model.FK_Contract_Сountries1" ManuallyRouted="false" />
+        <AssociationConnector Association="ExportOfRawMaterials2Model.FK_ContractOfRawMaterialsPrescribedInTheContract_Contract" ManuallyRouted="false" />
+        <AssociationConnector Association="ExportOfRawMaterials2Model.FK_ContractOfRawMaterialsPrescribedInTheContract_RawMaterialsPrescribedInTheContract" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

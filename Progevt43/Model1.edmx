@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ExportOfRawMaterialsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Contract">
+          <Key>
+            <PropertyRef Name="idContract(pk)" />
+          </Key>
+          <Property Name="idContract(pk)" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idSupplierCompany(fk)" Type="int" Nullable="false" />
+          <Property Name="idRecipientCompany(fk)" Type="int" Nullable="false" />
+          <Property Name="contractNumberAccordingToInternalRegulations" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="dateOfConclusionOfTheContract" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContractOfRawMaterialsPrescribedInTheContract">
+          <Key>
+            <PropertyRef Name="idContractOfRawMaterialsPrescribedInTheContract" />
+          </Key>
+          <Property Name="idContractOfRawMaterialsPrescribedInTheContract" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idRawMaterialsPrescribedInTheContract(fk)" Type="int" Nullable="false" />
+          <Property Name="idContract(fk)" Type="int" Nullable="false" />
+          <Property Name="quantityOfGoods" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RawMaterialsPrescribedInTheContract">
+          <Key>
+            <PropertyRef Name="idRawMaterialsPrescribedInTheContract(pk)" />
+          </Key>
+          <Property Name="idRawMaterialsPrescribedInTheContract(pk)" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="priceOneRawMaterialsPrescribedInTheContract" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecipientCompany">
+          <Key>
+            <PropertyRef Name="idRecipientCompany(pk)" />
+          </Key>
+          <Property Name="idRecipientCompany(pk)" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idCountriesRecipientCompany(fk)" Type="int" Nullable="false" />
+          <Property Name="nameOfTheRecipientsCompany" Type="nchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupplierCompany">
+          <Key>
+            <PropertyRef Name="idSupplierCompany(pk)" />
+          </Key>
+          <Property Name="idSupplierCompany(pk)" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idCountriesSupplierCompany(fk)" Type="int" Nullable="false" />
+          <Property Name="nameOfTheSuppliersCompany" Type="nchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Сountries">
+          <Key>
+            <PropertyRef Name="idCountries(pk)" />
+          </Key>
+          <Property Name="idCountries(pk)" Type="int" Nullable="false" />
+          <Property Name="countryName" Type="nchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Contract_RecipientCompany1">
+          <End Role="RecipientCompany" Type="Self.RecipientCompany" Multiplicity="1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecipientCompany">
+              <PropertyRef Name="idRecipientCompany(pk)" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="idRecipientCompany(fk)" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_SupplierCompany1">
+          <End Role="SupplierCompany" Type="Self.SupplierCompany" Multiplicity="1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierCompany">
+              <PropertyRef Name="idSupplierCompany(pk)" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="idSupplierCompany(fk)" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractOfRawMaterialsPrescribedInTheContract_Contract">
+          <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
+          <End Role="ContractOfRawMaterialsPrescribedInTheContract" Type="Self.ContractOfRawMaterialsPrescribedInTheContract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="idContract(pk)" />
+            </Principal>
+            <Dependent Role="ContractOfRawMaterialsPrescribedInTheContract">
+              <PropertyRef Name="idContract(fk)" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractOfRawMaterialsPrescribedInTheContract_RawMaterialsPrescribedInTheContract">
+          <End Role="RawMaterialsPrescribedInTheContract" Type="Self.RawMaterialsPrescribedInTheContract" Multiplicity="1" />
+          <End Role="ContractOfRawMaterialsPrescribedInTheContract" Type="Self.ContractOfRawMaterialsPrescribedInTheContract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RawMaterialsPrescribedInTheContract">
+              <PropertyRef Name="idRawMaterialsPrescribedInTheContract(pk)" />
+            </Principal>
+            <Dependent Role="ContractOfRawMaterialsPrescribedInTheContract">
+              <PropertyRef Name="idRawMaterialsPrescribedInTheContract(fk)" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipientCompany_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="1" />
+          <End Role="RecipientCompany" Type="Self.RecipientCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="idCountries(pk)" />
+            </Principal>
+            <Dependent Role="RecipientCompany">
+              <PropertyRef Name="idCountriesRecipientCompany(fk)" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplierCompany_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="1" />
+          <End Role="SupplierCompany" Type="Self.SupplierCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="idCountries(pk)" />
+            </Principal>
+            <Dependent Role="SupplierCompany">
+              <PropertyRef Name="idCountriesSupplierCompany(fk)" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExportOfRawMaterialsModelStoreContainer">
+          <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractOfRawMaterialsPrescribedInTheContract" EntityType="Self.ContractOfRawMaterialsPrescribedInTheContract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RawMaterialsPrescribedInTheContract" EntityType="Self.RawMaterialsPrescribedInTheContract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipientCompany" EntityType="Self.RecipientCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupplierCompany" EntityType="Self.SupplierCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сountries" EntityType="Self.Сountries" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Contract_RecipientCompany1" Association="Self.FK_Contract_RecipientCompany1">
+            <End Role="RecipientCompany" EntitySet="RecipientCompany" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_SupplierCompany1" Association="Self.FK_Contract_SupplierCompany1">
+            <End Role="SupplierCompany" EntitySet="SupplierCompany" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractOfRawMaterialsPrescribedInTheContract_Contract" Association="Self.FK_ContractOfRawMaterialsPrescribedInTheContract_Contract">
+            <End Role="Contract" EntitySet="Contract" />
+            <End Role="ContractOfRawMaterialsPrescribedInTheContract" EntitySet="ContractOfRawMaterialsPrescribedInTheContract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractOfRawMaterialsPrescribedInTheContract_RawMaterialsPrescribedInTheContract" Association="Self.FK_ContractOfRawMaterialsPrescribedInTheContract_RawMaterialsPrescribedInTheContract">
+            <End Role="RawMaterialsPrescribedInTheContract" EntitySet="RawMaterialsPrescribedInTheContract" />
+            <End Role="ContractOfRawMaterialsPrescribedInTheContract" EntitySet="ContractOfRawMaterialsPrescribedInTheContract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipientCompany_Сountries" Association="Self.FK_RecipientCompany_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="RecipientCompany" EntitySet="RecipientCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplierCompany_Сountries" Association="Self.FK_SupplierCompany_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="SupplierCompany" EntitySet="SupplierCompany" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExportOfRawMaterialsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Contract">
+          <Key>
+            <PropertyRef Name="idContract_pk_" />
+          </Key>
+          <Property Name="idContract_pk_" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idSupplierCompany_fk_" Type="Int32" Nullable="false" />
+          <Property Name="idRecipientCompany_fk_" Type="Int32" Nullable="false" />
+          <Property Name="contractNumberAccordingToInternalRegulations" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="dateOfConclusionOfTheContract" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="RecipientCompany" Relationship="Self.FK_Contract_RecipientCompany1" FromRole="Contract" ToRole="RecipientCompany" />
+          <NavigationProperty Name="SupplierCompany" Relationship="Self.FK_Contract_SupplierCompany1" FromRole="Contract" ToRole="SupplierCompany" />
+          <NavigationProperty Name="ContractOfRawMaterialsPrescribedInTheContract" Relationship="Self.FK_ContractOfRawMaterialsPrescribedInTheContract_Contract" FromRole="Contract" ToRole="ContractOfRawMaterialsPrescribedInTheContract" />
+        </EntityType>
+        <EntityType Name="ContractOfRawMaterialsPrescribedInTheContract">
+          <Key>
+            <PropertyRef Name="idContractOfRawMaterialsPrescribedInTheContract" />
+          </Key>
+          <Property Name="idContractOfRawMaterialsPrescribedInTheContract" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idRawMaterialsPrescribedInTheContract_fk_" Type="Int32" Nullable="false" />
+          <Property Name="idContract_fk_" Type="Int32" Nullable="false" />
+          <Property Name="quantityOfGoods" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Contract" Relationship="Self.FK_ContractOfRawMaterialsPrescribedInTheContract_Contract" FromRole="ContractOfRawMaterialsPrescribedInTheContract" ToRole="Contract" />
+          <NavigationProperty Name="RawMaterialsPrescribedInTheContract" Relationship="Self.FK_ContractOfRawMaterialsPrescribedInTheContract_RawMaterialsPrescribedInTheContract" FromRole="ContractOfRawMaterialsPrescribedInTheContract" ToRole="RawMaterialsPrescribedInTheContract" />
+        </EntityType>
+        <EntityType Name="RawMaterialsPrescribedInTheContract">
+          <Key>
+            <PropertyRef Name="idRawMaterialsPrescribedInTheContract_pk_" />
+          </Key>
+          <Property Name="idRawMaterialsPrescribedInTheContract_pk_" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="priceOneRawMaterialsPrescribedInTheContract" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="ContractOfRawMaterialsPrescribedInTheContract" Relationship="Self.FK_ContractOfRawMaterialsPrescribedInTheContract_RawMaterialsPrescribedInTheContract" FromRole="RawMaterialsPrescribedInTheContract" ToRole="ContractOfRawMaterialsPrescribedInTheContract" />
+        </EntityType>
+        <EntityType Name="RecipientCompany">
+          <Key>
+            <PropertyRef Name="idRecipientCompany_pk_" />
+          </Key>
+          <Property Name="idRecipientCompany_pk_" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idCountriesRecipientCompany_fk_" Type="Int32" Nullable="false" />
+          <Property Name="nameOfTheRecipientsCompany" Type="String" MaxLength="500" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Contract" Relationship="Self.FK_Contract_RecipientCompany1" FromRole="RecipientCompany" ToRole="Contract" />
+          <NavigationProperty Name="Сountries" Relationship="Self.FK_RecipientCompany_Сountries" FromRole="RecipientCompany" ToRole="Сountries" />
+        </EntityType>
+        <EntityType Name="SupplierCompany">
+          <Key>
+            <PropertyRef Name="idSupplierCompany_pk_" />
+          </Key>
+          <Property Name="idSupplierCompany_pk_" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idCountriesSupplierCompany_fk_" Type="Int32" Nullable="false" />
+          <Property Name="nameOfTheSuppliersCompany" Type="String" MaxLength="500" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Contract" Relationship="Self.FK_Contract_SupplierCompany1" FromRole="SupplierCompany" ToRole="Contract" />
+          <NavigationProperty Name="Сountries" Relationship="Self.FK_SupplierCompany_Сountries" FromRole="SupplierCompany" ToRole="Сountries" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Сountries">
+          <Key>
+            <PropertyRef Name="idCountries_pk_" />
+          </Key>
+          <Property Name="idCountries_pk_" Type="Int32" Nullable="false" />
+          <Property Name="countryName" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RecipientCompany" Relationship="Self.FK_RecipientCompany_Сountries" FromRole="Сountries" ToRole="RecipientCompany" />
+          <NavigationProperty Name="SupplierCompany" Relationship="Self.FK_SupplierCompany_Сountries" FromRole="Сountries" ToRole="SupplierCompany" />
+        </EntityType>
+        <Association Name="FK_Contract_RecipientCompany1">
+          <End Role="RecipientCompany" Type="Self.RecipientCompany" Multiplicity="1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecipientCompany">
+              <PropertyRef Name="idRecipientCompany_pk_" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="idRecipientCompany_fk_" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_SupplierCompany1">
+          <End Role="SupplierCompany" Type="Self.SupplierCompany" Multiplicity="1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierCompany">
+              <PropertyRef Name="idSupplierCompany_pk_" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="idSupplierCompany_fk_" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractOfRawMaterialsPrescribedInTheContract_Contract">
+          <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
+          <End Role="ContractOfRawMaterialsPrescribedInTheContract" Type="Self.ContractOfRawMaterialsPrescribedInTheContract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="idContract_pk_" />
+            </Principal>
+            <Dependent Role="ContractOfRawMaterialsPrescribedInTheContract">
+              <PropertyRef Name="idContract_fk_" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractOfRawMaterialsPrescribedInTheContract_RawMaterialsPrescribedInTheContract">
+          <End Role="RawMaterialsPrescribedInTheContract" Type="Self.RawMaterialsPrescribedInTheContract" Multiplicity="1" />
+          <End Role="ContractOfRawMaterialsPrescribedInTheContract" Type="Self.ContractOfRawMaterialsPrescribedInTheContract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RawMaterialsPrescribedInTheContract">
+              <PropertyRef Name="idRawMaterialsPrescribedInTheContract_pk_" />
+            </Principal>
+            <Dependent Role="ContractOfRawMaterialsPrescribedInTheContract">
+              <PropertyRef Name="idRawMaterialsPrescribedInTheContract_fk_" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipientCompany_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="1" />
+          <End Role="RecipientCompany" Type="Self.RecipientCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="idCountries_pk_" />
+            </Principal>
+            <Dependent Role="RecipientCompany">
+              <PropertyRef Name="idCountriesRecipientCompany_fk_" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplierCompany_Сountries">
+          <End Role="Сountries" Type="Self.Сountries" Multiplicity="1" />
+          <End Role="SupplierCompany" Type="Self.SupplierCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сountries">
+              <PropertyRef Name="idCountries_pk_" />
+            </Principal>
+            <Dependent Role="SupplierCompany">
+              <PropertyRef Name="idCountriesSupplierCompany_fk_" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExportOfRawMaterialsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contract" EntityType="Self.Contract" />
+          <EntitySet Name="ContractOfRawMaterialsPrescribedInTheContract" EntityType="Self.ContractOfRawMaterialsPrescribedInTheContract" />
+          <EntitySet Name="RawMaterialsPrescribedInTheContract" EntityType="Self.RawMaterialsPrescribedInTheContract" />
+          <EntitySet Name="RecipientCompany" EntityType="Self.RecipientCompany" />
+          <EntitySet Name="SupplierCompany" EntityType="Self.SupplierCompany" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Сountries" EntityType="Self.Сountries" />
+          <AssociationSet Name="FK_Contract_RecipientCompany1" Association="Self.FK_Contract_RecipientCompany1">
+            <End Role="RecipientCompany" EntitySet="RecipientCompany" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_SupplierCompany1" Association="Self.FK_Contract_SupplierCompany1">
+            <End Role="SupplierCompany" EntitySet="SupplierCompany" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractOfRawMaterialsPrescribedInTheContract_Contract" Association="Self.FK_ContractOfRawMaterialsPrescribedInTheContract_Contract">
+            <End Role="Contract" EntitySet="Contract" />
+            <End Role="ContractOfRawMaterialsPrescribedInTheContract" EntitySet="ContractOfRawMaterialsPrescribedInTheContract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractOfRawMaterialsPrescribedInTheContract_RawMaterialsPrescribedInTheContract" Association="Self.FK_ContractOfRawMaterialsPrescribedInTheContract_RawMaterialsPrescribedInTheContract">
+            <End Role="RawMaterialsPrescribedInTheContract" EntitySet="RawMaterialsPrescribedInTheContract" />
+            <End Role="ContractOfRawMaterialsPrescribedInTheContract" EntitySet="ContractOfRawMaterialsPrescribedInTheContract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipientCompany_Сountries" Association="Self.FK_RecipientCompany_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="RecipientCompany" EntitySet="RecipientCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplierCompany_Сountries" Association="Self.FK_SupplierCompany_Сountries">
+            <End Role="Сountries" EntitySet="Сountries" />
+            <End Role="SupplierCompany" EntitySet="SupplierCompany" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExportOfRawMaterialsModelStoreContainer" CdmEntityContainer="ExportOfRawMaterialsEntities">
+          <EntitySetMapping Name="Contract">
+            <EntityTypeMapping TypeName="ExportOfRawMaterialsModel.Contract">
+              <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="idContract_pk_" ColumnName="idContract(pk)" />
+                <ScalarProperty Name="idSupplierCompany_fk_" ColumnName="idSupplierCompany(fk)" />
+                <ScalarProperty Name="idRecipientCompany_fk_" ColumnName="idRecipientCompany(fk)" />
+                <ScalarProperty Name="contractNumberAccordingToInternalRegulations" ColumnName="contractNumberAccordingToInternalRegulations" />
+                <ScalarProperty Name="dateOfConclusionOfTheContract" ColumnName="dateOfConclusionOfTheContract" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractOfRawMaterialsPrescribedInTheContract">
+            <EntityTypeMapping TypeName="ExportOfRawMaterialsModel.ContractOfRawMaterialsPrescribedInTheContract">
+              <MappingFragment StoreEntitySet="ContractOfRawMaterialsPrescribedInTheContract">
+                <ScalarProperty Name="idContractOfRawMaterialsPrescribedInTheContract" ColumnName="idContractOfRawMaterialsPrescribedInTheContract" />
+                <ScalarProperty Name="idRawMaterialsPrescribedInTheContract_fk_" ColumnName="idRawMaterialsPrescribedInTheContract(fk)" />
+                <ScalarProperty Name="idContract_fk_" ColumnName="idContract(fk)" />
+                <ScalarProperty Name="quantityOfGoods" ColumnName="quantityOfGoods" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RawMaterialsPrescribedInTheContract">
+            <EntityTypeMapping TypeName="ExportOfRawMaterialsModel.RawMaterialsPrescribedInTheContract">
+              <MappingFragment StoreEntitySet="RawMaterialsPrescribedInTheContract">
+                <ScalarProperty Name="idRawMaterialsPrescribedInTheContract_pk_" ColumnName="idRawMaterialsPrescribedInTheContract(pk)" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="priceOneRawMaterialsPrescribedInTheContract" ColumnName="priceOneRawMaterialsPrescribedInTheContract" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipientCompany">
+            <EntityTypeMapping TypeName="ExportOfRawMaterialsModel.RecipientCompany">
+              <MappingFragment StoreEntitySet="RecipientCompany">
+                <ScalarProperty Name="idRecipientCompany_pk_" ColumnName="idRecipientCompany(pk)" />
+                <ScalarProperty Name="idCountriesRecipientCompany_fk_" ColumnName="idCountriesRecipientCompany(fk)" />
+                <ScalarProperty Name="nameOfTheRecipientsCompany" ColumnName="nameOfTheRecipientsCompany" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplierCompany">
+            <EntityTypeMapping TypeName="ExportOfRawMaterialsModel.SupplierCompany">
+              <MappingFragment StoreEntitySet="SupplierCompany">
+                <ScalarProperty Name="idSupplierCompany_pk_" ColumnName="idSupplierCompany(pk)" />
+                <ScalarProperty Name="idCountriesSupplierCompany_fk_" ColumnName="idCountriesSupplierCompany(fk)" />
+                <ScalarProperty Name="nameOfTheSuppliersCompany" ColumnName="nameOfTheSuppliersCompany" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ExportOfRawMaterialsModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сountries">
+            <EntityTypeMapping TypeName="ExportOfRawMaterialsModel.Сountries">
+              <MappingFragment StoreEntitySet="Сountries">
+                <ScalarProperty Name="idCountries_pk_" ColumnName="idCountries(pk)" />
+                <ScalarProperty Name="countryName" ColumnName="countryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
